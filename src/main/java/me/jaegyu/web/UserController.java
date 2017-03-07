@@ -14,7 +14,7 @@ import me.jaegyu.domain.User;
 import me.jaegyu.domain.UserRepository;
 
 @Controller
-@RequestMapping("")
+@RequestMapping("/users")
 public class UserController {
 	private List<User> users = new ArrayList<>();
 	
@@ -25,12 +25,17 @@ public class UserController {
 	public String create(User user) {
 		System.out.println(user);
 		userRepositiry.save(user);
-		return "redirect:/users/list";
+		return "redirect:/users";
 	}
 
-	@GetMapping("/users")
+	@GetMapping("")
 	public String list(Model model) {
 		model.addAttribute("users",userRepositiry.findAll());
 		return "/user/list";
+	}
+	
+	@GetMapping("form")
+	public String form(){
+		return "/user/form";
 	}
 }
