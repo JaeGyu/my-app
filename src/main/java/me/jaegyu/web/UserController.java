@@ -3,6 +3,8 @@ package me.jaegyu.web;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,29 @@ import me.jaegyu.domain.UserRepository;
 @RequestMapping("/users")
 public class UserController {
 	private List<User> users = new ArrayList<>();
+
+	@GetMapping("/loginForm")
+	public String loginForm() {
+		return "/user/login";
+	}
+
+	@PostMapping("login")
+	public String login(String userId, String password, HttpSession session) {
+		User user = userRepositiry.findByUserId(userId);
+		if (user == null) {
+			System.out.println("Login Failure");
+			return "redirect:/users/loginForm";
+		}
+
+		if (!password.equals(user.getPassword())) {
+			System.out.println("Login Failure");
+			return "redirect:/users/loginForm";
+		}
+		
+		System.out.println("Login Success");
+		session.setAttribute("user", user);
+		return "redirect:/";
+	}
 
 	@Autowired
 	private UserRepository userRepositiry;
