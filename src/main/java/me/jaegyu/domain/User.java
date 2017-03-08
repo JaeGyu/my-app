@@ -10,10 +10,15 @@ public class User {
 	@Id
 	@GeneratedValue
 	private Long id;
-
-	public Long getId() {
-		return id;
+	
+	public boolean matchId(Long newId){
+		if(newId == null){
+			return false;
+		}
+		
+		return newId.equals(this.id);
 	}
+
 
 	@Column(nullable = false, length = 20, unique = true)
 	private String userId;
@@ -29,9 +34,14 @@ public class User {
 		this.userId = userId;
 	}
 
-	public String getPassword() {
-		return password;
+	public boolean matchPassword(String newPassword) {
+		if (newPassword == null) {
+			return false;
+		}
+
+		return newPassword.equals(this.password);
 	}
+
 
 	public void setPassword(String password) {
 		this.password = password;
